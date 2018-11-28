@@ -1,16 +1,7 @@
 @charset 'UTF-8';
 
-@import "./config/config";
-
-@if (config-theme() == "light") {
-    @import "../mixins";
-    @import "../themes/light";
-} @else {
-    @import "../themes/dark";
-}
-
-@import "./normalize/index";
+@import "./normalize/import-now";
+@import "./themes/light";
 @import "./controls/index";
 @import "./pages/index";
-
 @import "./main";

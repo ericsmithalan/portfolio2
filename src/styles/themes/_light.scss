@@ -4,6 +4,13 @@ $font-body: "Lato", sans-serif;
 $font-heading: "Alegreya", serif;
 
 $theme: (
+    breakpoints: (
+        xsmall: 320px,
+        small: 600px,
+        medium: 960px,
+        large: 1280px,
+        xlarge: 1920px
+    ),
     typography: (
         family-body: $font-body,
         family-heading: $font-heading,
@@ -44,3 +51,21 @@ $theme: (
         error: #bc4f4f
     )
 );
+@function theme-chrome($name) {
+    @return map-get(map-get($theme, color-chrome), $name);
+}
+@function theme-status($name) {
+    @return map-get(map-get($theme, color-status), $name);
+}
+@function theme-accent($name) {
+    @return map-get(map-get($theme, color-accent), $name);
+}
+@function theme-base($name) {
+    @return map-get(map-get($theme, color-base), $name);
+}
+@function theme-breakpoint($name) {
+    @return map-get(map-get($theme, breakpoints), $name);
+}
+@function theme-typography($name) {
+    @return map-get(map-get($theme, typography), $name);
+}
