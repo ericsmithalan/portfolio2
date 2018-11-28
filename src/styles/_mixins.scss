@@ -1,0 +1,19 @@
+@function theme-chrome($name) {
+    @return map-get(map-get($theme, color-chrome), $name);
+}
+@function theme-status($name) {
+    @return map-get(map-get($theme, color-status), $name);
+}
+@function theme-accent($name) {
+    @return map-get(map-get($theme, color-accent), $name);
+}
+@function theme-base($name) {
+    @return map-get(map-get($theme, color-base), $name);
+}
+@function theme-typography($name) {
+    @return map-get(map-get($theme, typography), $name);
+}
+
+@function config-breakpoint($name) {
+    @return map-get(map-get($theme, breakpoints), $name);
+}
