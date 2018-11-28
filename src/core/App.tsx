@@ -1,8 +1,8 @@
-import * as React from "react";
+import React, { Component } from "react";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { HomePage, AboutPage, ProjectPage } from "@pages";
 
-export class App extends React.Component {
+export class App extends Component {
     public render() {
         return (
             <BrowserRouter>

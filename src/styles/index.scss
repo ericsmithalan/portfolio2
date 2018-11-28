@@ -1,5 +1,6 @@
-body {
-    margin: 0;
-    padding: 0;
-    font-family: sans-serif;
-}
+@import "./variables/index.scss";
+@import "./doc.scss";
+@import "./shell.scss";
+@import "./header.scss";
+@import "./footer.scss";
+@import "./navbar.scss";

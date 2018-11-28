@@ -1,0 +1,21 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+.shell {
+  background-color: green;
+}
+
+.header {
+  background-color: red;
+}
+
+.footer {
+  background-color: blue;
+}
+
+.navbar {
+  background-color: yellow;
+}
