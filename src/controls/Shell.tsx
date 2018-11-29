@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { FooterControl, NavbarControl, HeaderControl } from "@controls";
+import { FooterControl, HeaderControl } from "@controls";
 
 export interface IShellProps {}
 
@@ -14,8 +14,7 @@ export class ShellControl extends Component<IShellProps, IShellState> {
         return (
             <div className="shell">
                 <HeaderControl />
-                <NavbarControl />
-                <div>{this.props.children}</div>
+                {this.props.children}
                 <FooterControl />
             </div>
         );

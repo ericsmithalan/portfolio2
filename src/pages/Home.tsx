@@ -5,7 +5,7 @@ export class HomePage extends Component {
     public render() {
         return (
             <ShellControl>
-                <div className="home">
+                <div className="page">
                     <div>Home page</div>
                 </div>
             </ShellControl>

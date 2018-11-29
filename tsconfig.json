@@ -22,6 +22,7 @@
         "esModuleInterop": true,
         "paths": {
             "@styles/*": ["src/styles/*"],
+            "@icons": ["src/images/icons/index"],
             "@images/*": ["src/images/*"],
             "@pages": ["src/pages/index"],
             "@controls": ["src/controls/index"],

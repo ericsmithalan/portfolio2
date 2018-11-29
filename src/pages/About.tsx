@@ -5,7 +5,7 @@ export class AboutPage extends Component {
     public render() {
         return (
             <ShellControl>
-                <div className="about">
+                <div className="page">
                     <div>About page</div>
                 </div>
             </ShellControl>
