@@ -1,5 +1,5 @@
 import React from "react";
-import { IconBase } from "@icons";
+import { IconBase } from "@controls";
 
 export class MenuIcon extends IconBase {
     protected renderIcon(): JSX.Element {

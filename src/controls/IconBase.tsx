@@ -1,26 +1,45 @@
 import React, { PureComponent } from "react";
-import { Rect } from "@core";
+import { Rect, Theme } from "@core";
+import { LightTheme } from "@theme";
 
-export interface IconProps {
+interface IconProps {
     width: number;
     height: number;
     color: string;
     viewBox: Rect;
+    theme: Theme;
 }
 
-export abstract class IconBase extends PureComponent<IconProps, {}> {
+interface IconState {
+    color: string;
+}
+
+export abstract class IconBase extends PureComponent<IconProps, IconState> {
     public static defaultProps: IconProps = {
         width: 24,
         height: 24,
-        color: "#222222",
-        viewBox: { x: 0, y: 0, width: 24, height: 24 }
+        color: "",
+        viewBox: { x: 0, y: 0, width: 24, height: 24 },
+        theme: LightTheme
     };
 
     public constructor(props: IconProps) {
         super(Object.apply(IconBase.defaultProps, props));
+
+        this.state = {
+            color: "red"
+        };
     }
 
     protected abstract renderIcon(): JSX.Element;
+
+    public componentWillMount() {
+        if (this.props.color === "") {
+            this.setState({ color: this.props.theme.colorAccent.high });
+        } else {
+            this.setState({ color: this.props.color });
+        }
+    }
 
     public render() {
         return (
@@ -38,7 +57,7 @@ export abstract class IconBase extends PureComponent<IconProps, {}> {
                         ${this.props.viewBox.height}
                     `}
                 >
-                    <g fill={this.props.color}>{this.renderIcon()}</g>
+                    <g fill={this.state.color}>{this.renderIcon()}</g>
                 </svg>
             </div>
         );
