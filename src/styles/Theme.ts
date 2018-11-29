@@ -12,13 +12,13 @@ export const LightTheme: Theme = {
         familyBody: "'Alegreya', serif",
         familyHeading: "'Lato', sans-serif",
         sizeBody: "100%",
-        sizeH1: "100%",
-        sizeH2: "100%",
-        sizeH3: "100%",
-        sizeH4: "100%",
-        sizeH5: "100%",
-        sizeH6: "100%",
-        sizeSmall: "100%"
+        sizeH1: 48,
+        sizeH2: 32,
+        sizeH3: 28,
+        sizeH4: 24,
+        sizeH5: 18,
+        sizeH6: 16,
+        sizeSmall: 12
     },
     colorChrome: {
         high: "#f2f2f2",

@@ -1,6 +1,7 @@
 @charset 'UTF-8';
 
 @import "./normalize/import-now";
-@import "./themes/light";
+@import "./libs/index.scss";
+@import "./theme";
+
 @import "./ui/index";
-@import "./main";

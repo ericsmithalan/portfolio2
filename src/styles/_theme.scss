@@ -15,12 +15,14 @@ $theme: (
         family-body: $font-body,
         family-heading: $font-heading,
         size-body: 100%,
-        size-h1: 100%,
-        size-h2: 100%,
-        size-h3: 100%,
-        size-h4: 100%,
-        size-h5: 100%,
-        size-h6: 100%,
+        headers: (
+            h1: 48,
+            h2: 32,
+            h3: 28,
+            h4: 22,
+            h5: 18,
+            h6: 16
+        ),
         size-small: 100%
     ),
     color-chrome: (

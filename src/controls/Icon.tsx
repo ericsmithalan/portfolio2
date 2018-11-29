@@ -2,38 +2,52 @@ import React, { PureComponent } from "react";
 import { Rect, Theme } from "@core";
 import { LightTheme } from "@theme";
 
-interface IconProps {
+type IconProps = {
     width: number;
     height: number;
     color: string;
     viewBox: Rect;
     theme: Theme;
-}
+    source: JSX.Element;
+};
 
-interface IconState {
+type IconState = {
     color: string;
-}
+};
 
-export abstract class IconBase extends PureComponent<IconProps, IconState> {
+export class Icon extends PureComponent<IconProps, IconState> {
+    private _source: JSX.Element;
+
     public static defaultProps: IconProps = {
         width: 24,
         height: 24,
         color: "",
         viewBox: { x: 0, y: 0, width: 24, height: 24 },
-        theme: LightTheme
+        theme: LightTheme,
+        source: <g />
     };
 
     public constructor(props: IconProps) {
-        super(Object.apply(IconBase.defaultProps, props));
+        super(Object.apply(Icon.defaultProps, props));
 
         this.state = {
             color: "red"
         };
     }
 
-    protected abstract renderIcon(): JSX.Element;
+    public get source(): JSX.Element {
+        return this._source;
+    }
+
+    public set source(value: JSX.Element) {
+        this._source = value;
+    }
 
     public componentWillMount() {
+        if (this.props.source) {
+            this.source = this.props.source;
+        }
+
         if (this.props.color === "") {
             this.setState({ color: this.props.theme.colorAccent.high });
         } else {
@@ -57,7 +71,7 @@ export abstract class IconBase extends PureComponent<IconProps, IconState> {
                         ${this.props.viewBox.height}
                     `}
                 >
-                    <g fill={this.state.color}>{this.renderIcon()}</g>
+                    <g fill={this.state.color}>{this._source}</g>
                 </svg>
             </div>
         );

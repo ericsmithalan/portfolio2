@@ -1,2 +1,26 @@
 .button {
+    border: 1px solid red;
+
+    &.icon &.text {
+        display: flex;
+
+        &.left {
+            flex-flow: row;
+        }
+
+        &.right {
+            flex-flow: row;
+        }
+
+        &.top {
+            flex-flow: column;
+        }
+
+        &.bottom {
+            flex-flow: column;
+        }
+    }
+
+    &.toggle {
+    }
 }

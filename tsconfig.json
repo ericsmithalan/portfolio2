@@ -23,7 +23,6 @@
         "paths": {
             "@styles/*": ["src/styles/*"],
             "@theme": ["src/styles/index.ts"],
-            "@icons": ["src/images/icons/index"],
             "@images/*": ["src/images/*"],
             "@pages": ["src/pages/index"],
             "@controls": ["src/controls/index"],
