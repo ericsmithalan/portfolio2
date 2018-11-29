@@ -66,7 +66,7 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
             this._isSelectable = false;
         }
 
-        this._setStyles();
+        this._updateStyles();
     }
 
     public render(): JSX.Element {
@@ -88,7 +88,11 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
 
     private _renderIcon(): JSX.Element {
         if (this._hasIcon) {
-            return <Icon source={this.props.iconSource} />;
+            return (
+                <div className="iconWrapper">
+                    <Icon source={this.props.iconSource} />
+                </div>
+            );
         }
 
         return <span />;
@@ -111,7 +115,10 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
         event.stopPropagation();
 
         if (this.props.type === ButtonKind.Toggle) {
-            this.setState({ isSelected: !this.state.isSelected });
+            const isSelected = !this.state.isSelected;
+
+            this._setSelectedCssClass(isSelected);
+            this.setState({ isSelected: isSelected });
         }
 
         this._cssClasses.add("pressed");
@@ -137,45 +144,41 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
         }
     };
 
-    private _setStyles() {
+    private _updateStyles() {
         this._cssClasses.add("button");
-
-        if (this._hasIcon) {
-            this._setAlignCssClass(this.props.iconAlign);
-        }
-
-        if (this._isSelectable) {
-            this._cssClasses.add("selectable");
-            this._setSelectableCssClass(this.props.isSelected);
-        }
-
+        this._setAlignCssClass(this.props.iconAlign);
+        this._setSelectedCssClass(this.props.isSelected);
         this.setState({ cssClasses: this._cssClasses.classString });
     }
 
-    private _setSelectableCssClass(isSelected: boolean) {
-        if (isSelected) {
-            this._cssClasses.add("selected");
-        } else {
-            this._cssClasses.remove("selected");
+    private _setSelectedCssClass(isSelected: boolean) {
+        if (this._isSelectable) {
+            if (isSelected) {
+                this._cssClasses.add("selected");
+            } else {
+                this._cssClasses.remove("selected");
+            }
         }
     }
 
     private _setAlignCssClass(alignment: Alignment) {
-        switch (alignment) {
-            case Alignment.Left:
-                this._cssClasses.add("left");
-                break;
-            case Alignment.Right:
-                this._cssClasses.add("right");
-                break;
-            case Alignment.Bottom:
-                this._cssClasses.add("bottom");
-                break;
-            case Alignment.Top:
-                this._cssClasses.add("top");
-                break;
-            default:
-                break;
+        if (this._hasIcon && this._hasText) {
+            switch (alignment) {
+                case Alignment.Left:
+                    this._cssClasses.add("left");
+                    break;
+                case Alignment.Right:
+                    this._cssClasses.add("right");
+                    break;
+                case Alignment.Bottom:
+                    this._cssClasses.add("bottom");
+                    break;
+                case Alignment.Top:
+                    this._cssClasses.add("top");
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }

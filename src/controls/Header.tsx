@@ -11,7 +11,6 @@ export class HeaderControl extends Component {
                     iconSource={IconSources.Placeholder}
                     iconAlign={Alignment.Left}
                     onPress={this._menuButtonPress}
-                    text="hello world"
                 />
                 <div>Header</div>
             </div>

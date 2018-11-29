@@ -15,15 +15,15 @@ type IconState = {
 export class Icon extends PureComponent<IconProps, IconState> {
     private _source: JSX.Element;
     public static defaultProps: Partial<IconProps> = {
-        width: 24,
-        height: 24
+        width: 32,
+        height: 32
     };
 
     public constructor(props: IconProps) {
         super(props);
 
         this.state = {
-            color: "red"
+            color: Globals.theme.colors.colorBase.medium
         };
     }
 
@@ -40,23 +40,24 @@ export class Icon extends PureComponent<IconProps, IconState> {
             this.source = this.props.source;
         }
 
-        if (!this.props.color) {
-            this.setState({ color: Globals.theme.colors.colorAccent.high });
-        } else {
+        if (this.props.color) {
             this.setState({ color: this.props.color });
         }
     }
 
     public render() {
         return (
-            <div
-                className="icon"
-                style={{ width: this.props.width, height: this.props.height }}
+            <svg
+                className="iconContainer"
+                width={this.props.width}
+                height={this.props.height}
+                fill={this.state.color}
+                transform="0 0"
+                preserveAspectRatio="xMaxYMax meet"
+                viewBox={`0, 0, ${this.props.width}, ${this.props.height}`}
             >
-                <svg width={this.props.width} height={this.props.height}>
-                    <g fill={this.state.color}>{this._source}</g>
-                </svg>
-            </div>
+                {this._source}
+            </svg>
         );
     }
 }

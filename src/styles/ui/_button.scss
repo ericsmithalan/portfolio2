@@ -1,26 +1,33 @@
 .button {
-    border: 1px solid red;
+    background-color: theme-chrome(low);
 
-    &.icon &.text {
-        display: flex;
-
-        &.left {
-            flex-flow: row;
-        }
-
-        &.right {
-            flex-flow: row;
-        }
-
-        &.top {
-            flex-flow: column;
-        }
-
-        &.bottom {
-            flex-flow: column;
-        }
+    &:hover {
+        background-color: theme-chrome(low-medium);
     }
 
-    &.toggle {
+    &.selected {
+        background-color: theme-accent(high);
+    }
+
+    &.icon-left {
+        flex-flow: row;
+    }
+
+    &.icon-right {
+        flex-flow: row;
+    }
+
+    &.icon-top {
+        flex-flow: column;
+    }
+
+    &.icon-bottom {
+        flex-flow: column;
+    }
+
+    .iconWrapper {
+        display: block;
+        margin: auto;
+        background-color: red;
     }
 }
