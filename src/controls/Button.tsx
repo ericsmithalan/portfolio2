@@ -4,15 +4,15 @@ import { Alignment, CssClassArray, ButtonKind } from "@core";
 import { Icon } from "@controls";
 
 type ButtonProps = {
-    type?: ButtonKind;
-    iconSource?: JSX.Element;
-    text?: string;
-    iconAlign?: Alignment;
-    url?: string;
-    onPress?: (event: React.MouseEvent) => void;
-    onPointerEnter?: (event: React.MouseEvent) => void;
-    onPointerLeave?: (event: React.MouseEvent) => void;
-    isSelected?: boolean;
+    type: ButtonKind;
+    iconSource: JSX.Element;
+    text: string;
+    iconAlign: Alignment;
+    url: string;
+    onPress: (event: React.MouseEvent) => void;
+    onPointerEnter: (event: React.MouseEvent) => void;
+    onPointerLeave: (event: React.MouseEvent) => void;
+    isSelected: boolean;
 };
 
 type ButtonState = {
@@ -22,18 +22,19 @@ type ButtonState = {
 };
 
 export class ButtonControl extends Component<ButtonProps, ButtonState> {
-    public static defaultProps: ButtonProps = {
-        type: ButtonKind.Standard
+    public static defaultProps: Partial<ButtonProps> = {
+        type: ButtonKind.Standard,
+        iconAlign: Alignment.Left
     };
-
-    public get isSelected(): boolean | undefined {
-        return this.state.isSelected;
-    }
 
     private readonly _cssClasses: CssClassArray;
 
+    private _hasIcon: boolean;
+    private _hasText: boolean;
+    private _isSelectable: boolean;
+
     public constructor(props: ButtonProps) {
-        super(Object.assign(ButtonControl.defaultProps, props));
+        super(props);
 
         this._cssClasses = new CssClassArray();
 
@@ -42,29 +43,63 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
             isMouseover: false,
             cssClasses: ""
         };
+
+        this._hasIcon = true;
+        this._hasText = true;
+        this._isSelectable = true;
+    }
+
+    public get isSelected(): boolean {
+        return this.state.isSelected;
     }
 
     public componentWillMount() {
-        this._cssClasses.add("button");
-        this._initializeCssClassNames();
+        if (!this.props.text) {
+            this._hasText = false;
+        }
 
-        this.setState({ cssClasses: this._cssClasses.classes });
+        if (!this.props.iconSource) {
+            this._hasIcon = false;
+        }
+
+        if (this.props.type !== ButtonKind.Toggle) {
+            this._isSelectable = false;
+        }
+
+        this._setStyles();
     }
 
-    public render() {
+    public render(): JSX.Element {
+        console.log(this.state.cssClasses);
         return (
             <Link
-                className={this._cssClasses.classes}
+                className={this.state.cssClasses}
                 onPointerEnter={this._pointerEnter}
                 onPointerLeave={this._pointerLeave}
                 onPointerDown={this._pointerDown}
                 onPointerUp={this._pointerUp}
                 to="#"
             >
-                <Icon source={this.props.iconSource} />
-                <span className="text">{this.props.text}</span>
+                {this._renderIcon()}
+                {this._renderText()}
             </Link>
         );
+    }
+
+    private _renderIcon(): JSX.Element {
+        if (this._hasIcon) {
+            return <Icon source={this.props.iconSource} />;
+        }
+
+        return <span />;
+    }
+
+    private _renderText(): JSX.Element {
+        if (this._hasText) {
+            return <span className="text">{this.props.text}</span>;
+        }
+
+        return <span />;
     }
 
     private _pointerUp = (event: React.PointerEvent): void => {
@@ -78,6 +113,8 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
         if (this.props.type === ButtonKind.Toggle) {
             this.setState({ isSelected: !this.state.isSelected });
         }
+
+        this._cssClasses.add("pressed");
 
         if (this.props.onPress) {
             this.props.onPress(event);
@@ -100,25 +137,26 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
         }
     };
 
-    private _initializeCssClassNames() {
-        if (this.props.iconAlign) {
+    private _setStyles() {
+        this._cssClasses.add("button");
+
+        if (this._hasIcon) {
             this._setAlignCssClass(this.props.iconAlign);
         }
 
-        if (this.props.isSelected && this.props.type) {
-            this._setSelectableCssClass(this.props.type, this.props.isSelected);
+        if (this._isSelectable) {
+            this._cssClasses.add("selectable");
+            this._setSelectableCssClass(this.props.isSelected);
         }
+
+        this.setState({ cssClasses: this._cssClasses.classString });
     }
 
-    private _setSelectableCssClass(type: ButtonKind, isSelected: boolean) {
-        if (this.props.type) {
-            this._cssClasses.add("toggle");
-
-            if (isSelected) {
-                this._cssClasses.add("selected");
-            } else {
-                this._cssClasses.remove("selected");
-            }
+    private _setSelectableCssClass(isSelected: boolean) {
+        if (isSelected) {
+            this._cssClasses.add("selected");
+        } else {
+            this._cssClasses.remove("selected");
         }
     }
 

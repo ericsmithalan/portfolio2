@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { FooterControl, HeaderControl } from "@controls";
 
-export interface IShellProps {}
+type IShellProps = {};
 
-export interface IShellState {}
+type IShellState = {};
 
 export class ShellControl extends Component<IShellProps, IShellState> {
     public constructor(props: IShellProps) {
