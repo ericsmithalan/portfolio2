@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 export interface IButtonProps {
-    type: "Standard" | "Selectable";
+    type: "standard" | "selectable";
     text: string;
     url: string;
     onPress: (event: React.MouseEvent) => void;
@@ -19,7 +19,7 @@ export interface IButtonState {
 
 export class ButtonControl<TProps extends IButtonProps> extends Component<TProps, IButtonState> {
     public static defaultProps: Partial<IButtonProps> = {
-        type: "Standard",
+        type: "standard",
         url: "."
     };
 
@@ -41,7 +41,7 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
             this._hasText = false;
         }
 
-        if (this.props.type !== "Selectable") {
+        if (this.props.type !== "selectable") {
             this._isSelectable = false;
         }
     }

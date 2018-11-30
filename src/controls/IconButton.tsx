@@ -4,14 +4,14 @@ import React from 'react';
 
 export interface IconButtonProps extends IButtonProps {
     iconSource: JSX.Element;
-    iconAlign: "Top" | "Left" | "Bottom" | "Right";
+    iconAlign: "top" | "left" | "bottom" | "right";
 }
 
 export class IconButtonControl extends ButtonControl<IconButtonProps> {
     public static defaultProps: Partial<IconButtonProps> = {
         iconSource: IconSources.Placeholder,
-        iconAlign: "Left",
-        type: "Standard",
+        iconAlign: "left",
+        type: "standard",
         url: "."
     };
 
