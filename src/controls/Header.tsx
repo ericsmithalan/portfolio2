@@ -1,15 +1,12 @@
-import React, { Component } from "react";
-import { ButtonControl, IconSources } from "@controls";
-import { Alignment, ButtonKind } from "@core";
+import { ButtonControl, IconSources } from '@controls';
+import React, { Component } from 'react';
 
 export class HeaderControl extends Component {
     public render() {
         return (
             <div className="header">
                 <ButtonControl
-                    type={ButtonKind.Toggle}
                     iconSource={IconSources.Placeholder}
-                    iconAlign={Alignment.Left}
                     onPress={this._menuButtonPress}
                 />
                 <div>Header</div>

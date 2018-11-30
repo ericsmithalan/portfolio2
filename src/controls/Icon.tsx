@@ -1,5 +1,5 @@
-import React, { PureComponent } from "react";
-import { Globals } from "@core";
+import { Globals } from '@src';
+import React, { PureComponent } from 'react';
 
 type IconProps = {
     width: number;

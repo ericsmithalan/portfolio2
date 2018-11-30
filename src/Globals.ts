@@ -1,4 +1,4 @@
-import { Theme } from "@styles/Theme";
+import { Theme } from '@styles/Theme';
 
 export class Globals {
     private static _theme: Theme;

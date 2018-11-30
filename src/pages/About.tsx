@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { ShellControl } from "@controls";
+import { ShellControl } from '@controls';
+import React, { Component } from 'react';
 
 export class AboutPage extends Component {
     public render() {

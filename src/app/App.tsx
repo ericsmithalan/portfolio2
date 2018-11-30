@@ -1,6 +1,8 @@
-import React, { Component } from "react";
-import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { HomePage, AboutPage, ProjectPage } from "@pages";
+import '@styles/_index.scss';
+
+import { AboutPage, HomePage, ProjectPage } from '@pages';
+import React, { Component } from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
 export class App extends Component {
     public render() {

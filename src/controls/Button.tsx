@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { Alignment, CssClassArray, ButtonKind } from "@core";
-import { Icon } from "@controls";
+import { Icon } from '@controls';
+import { Arr } from '@src';
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 type ButtonProps = {
-    type: ButtonKind;
+    type: "Standard" | "Selectable";
     iconSource: JSX.Element;
     text: string;
-    iconAlign: Alignment;
+    iconAlign: "Top" | "Left" | "Bottom" | "Right";
     url: string;
     onPress: (event: React.MouseEvent) => void;
     onPointerEnter: (event: React.MouseEvent) => void;
@@ -17,17 +17,16 @@ type ButtonProps = {
 
 type ButtonState = {
     isSelected: boolean;
-    isMouseover: boolean;
     cssClasses: string;
 };
 
 export class ButtonControl extends Component<ButtonProps, ButtonState> {
     public static defaultProps: Partial<ButtonProps> = {
-        type: ButtonKind.Standard,
-        iconAlign: Alignment.Left
+        type: "Standard",
+        url: "."
     };
 
-    private readonly _cssClasses: CssClassArray;
+    private readonly _cssClasses: Arr<string>;
 
     private _hasIcon: boolean;
     private _hasText: boolean;
@@ -36,11 +35,10 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
     public constructor(props: ButtonProps) {
         super(props);
 
-        this._cssClasses = new CssClassArray();
+        this._cssClasses = new Arr<string>();
 
         this.state = {
             isSelected: this.props.isSelected || false,
-            isMouseover: false,
             cssClasses: ""
         };
 
@@ -53,7 +51,7 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
         return this.state.isSelected;
     }
 
-    public componentWillMount() {
+    public componentWillMount(): void {
         if (!this.props.text) {
             this._hasText = false;
         }
@@ -62,15 +60,16 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
             this._hasIcon = false;
         }
 
-        if (this.props.type !== ButtonKind.Toggle) {
+        if (this.props.type !== "Selectable") {
             this._isSelectable = false;
         }
 
+        console.log(this.props);
         this._updateStyles();
     }
 
     public render(): JSX.Element {
-        console.log(this.state.cssClasses);
+        console.log("rendered", this.state.cssClasses);
         return (
             <Link
                 className={this.state.cssClasses}
@@ -78,7 +77,7 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
                 onPointerLeave={this._pointerLeave}
                 onPointerDown={this._pointerDown}
                 onPointerUp={this._pointerUp}
-                to="#"
+                to={this.props.url}
             >
                 {this._renderIcon()}
                 {this._renderText()}
@@ -114,14 +113,12 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
         event.preventDefault();
         event.stopPropagation();
 
-        if (this.props.type === ButtonKind.Toggle) {
+        if (this._isSelectable) {
             const isSelected = !this.state.isSelected;
 
             this._setSelectedCssClass(isSelected);
             this.setState({ isSelected: isSelected });
         }
-
-        this._cssClasses.add("pressed");
 
         if (this.props.onPress) {
             this.props.onPress(event);
@@ -161,19 +158,19 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
         }
     }
 
-    private _setAlignCssClass(alignment: Alignment) {
+    private _setAlignCssClass(alignment: string) {
         if (this._hasIcon && this._hasText) {
             switch (alignment) {
-                case Alignment.Left:
+                case "Left":
                     this._cssClasses.add("left");
                     break;
-                case Alignment.Right:
+                case "Right":
                     this._cssClasses.add("right");
                     break;
-                case Alignment.Bottom:
+                case "Bottom":
                     this._cssClasses.add("bottom");
                     break;
-                case Alignment.Top:
+                case "Top":
                     this._cssClasses.add("top");
                     break;
                 default:

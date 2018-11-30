@@ -22,14 +22,8 @@ export class ServiceWorker {
     }
 
     public static register() {
-        if (
-            process.env.NODE_ENV === "production" &&
-            "serviceWorker" in navigator
-        ) {
-            const publicUrl = new URL(
-                process.env.PUBLIC_URL!,
-                window.location.toString()
-            );
+        if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+            const publicUrl = new URL(process.env.PUBLIC_URL!, window.location.toString());
             if (publicUrl.origin !== window.location.origin) {
                 return;
             }
@@ -71,13 +65,9 @@ export class ServiceWorker {
                         installingWorker.onstatechange = () => {
                             if (installingWorker.state === "installed") {
                                 if (navigator.serviceWorker.controller) {
-                                    console.log(
-                                        "New content is available; please refresh."
-                                    );
+                                    console.log("New content is available; please refresh.");
                                 } else {
-                                    console.log(
-                                        "Content is cached for offline use."
-                                    );
+                                    console.log("Content is cached for offline use.");
                                 }
                             }
                         };
@@ -85,10 +75,7 @@ export class ServiceWorker {
                 };
             })
             .catch((error) => {
-                console.error(
-                    "Error during service worker registration:",
-                    error
-                );
+                console.error("Error during service worker registration:", error);
             });
     }
 
@@ -97,9 +84,7 @@ export class ServiceWorker {
             .then((response) => {
                 if (
                     response.status === 404 ||
-                    response.headers
-                        .get("content-type")!
-                        .indexOf("javascript") === -1
+                    response.headers.get("content-type")!.indexOf("javascript") === -1
                 ) {
                     navigator.serviceWorker.ready.then((registration) => {
                         registration.unregister().then(() => {
@@ -111,9 +96,7 @@ export class ServiceWorker {
                 }
             })
             .catch(() => {
-                console.log(
-                    "No internet connection found. App is running in offline mode."
-                );
+                console.log("No internet connection found. App is running in offline mode.");
             });
     }
 }

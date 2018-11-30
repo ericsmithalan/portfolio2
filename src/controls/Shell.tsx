@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { FooterControl, HeaderControl } from "@controls";
+import { FooterControl, HeaderControl } from '@controls';
+import React, { Component } from 'react';
 
 type IShellProps = {};
 
