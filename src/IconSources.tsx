@@ -3,9 +3,9 @@ import React from 'react';
 export class IconSources {
     public static Menu: JSX.Element = (
         <g>
-            <rect width="18" height="2" transform="translate(3 4)" />
-            <rect width="18" height="2" transform="translate(3 10)" />
-            <rect width="18" height="2" transform="translate(3 16)" />
+            <rect width="100%" height="3" transform="translate(0 4)" />
+            <rect width="100%" height="3" transform="translate(0 14)" />
+            <rect width="100%" height="3" transform="translate(0 24)" />
         </g>
     );
 

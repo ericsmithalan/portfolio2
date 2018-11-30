@@ -1,4 +1,4 @@
-import { Arr } from '@src';
+import { Arr, Globals, ITheme } from '@src';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -6,21 +6,29 @@ export interface IButtonProps {
     type: "standard" | "selectable";
     text: string;
     url: string;
+    width: number | string;
+    height: number | string;
     onPress: (event: React.MouseEvent) => void;
     onPointerEnter: (event: React.MouseEvent) => void;
     onPointerLeave: (event: React.MouseEvent) => void;
     isSelected: boolean;
+    theme: ITheme;
 }
 
 export interface IButtonState {
     isSelected: boolean;
     cssClasses: string;
+    width: number | string;
+    height: number | string;
 }
 
 export class ButtonControl<TProps extends IButtonProps> extends Component<TProps, IButtonState> {
     public static defaultProps: Partial<IButtonProps> = {
         type: "standard",
-        url: "."
+        url: "empty",
+        height: "auto",
+        width: "auto",
+        theme: Globals.theme
     };
 
     private readonly _cssClasses: Arr<string>;
@@ -34,7 +42,9 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
 
         this.state = {
             isSelected: this.props.isSelected || false,
-            cssClasses: ""
+            cssClasses: "",
+            width: this.props.height,
+            height: this.props.height
         };
 
         if (!this.props.text) {
@@ -43,6 +53,30 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
 
         if (this.props.type !== "selectable") {
             this._isSelectable = false;
+        }
+    }
+
+    public get isSelected(): boolean {
+        return this.state.isSelected;
+    }
+
+    public get width(): number | string {
+        return this.state.width;
+    }
+
+    public set width(value: number | string) {
+        if (this.state.width !== value) {
+            this.setState({ width: value });
+        }
+    }
+
+    public get height(): number | string {
+        return this.state.height;
+    }
+
+    public set height(value: number | string) {
+        if (this.state.height !== value) {
+            this.setState({ height: value });
         }
     }
 
@@ -58,16 +92,14 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
         return this._hasText;
     }
 
-    public get isSelected(): boolean {
-        return this.state.isSelected;
-    }
-
+    /** @virtual */
     public componentWillMount(): void {
         this.cssClasses.add("button");
         this.setSelectedCssClass(this.props.isSelected);
         this.setState({ cssClasses: this.cssClasses.classString });
     }
 
+    /** @virtual */
     protected onPointerEnter(event: React.PointerEvent) {
         event.stopPropagation();
 
@@ -76,6 +108,7 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
         }
     }
 
+    /** @virtual */
     protected onPointerLeave(event: React.PointerEvent) {
         event.stopPropagation();
 
@@ -84,8 +117,12 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
         }
     }
 
+    /** @virtual */
     protected onPointerDown(event: React.PointerEvent) {
-        event.preventDefault();
+        if (this.props.url === ButtonControl.defaultProps.url) {
+            event.preventDefault();
+        }
+
         event.stopPropagation();
 
         if (this.isSelectable) {
@@ -98,21 +135,28 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
         }
     }
 
+    /** @virtual */
     protected onPointerUp(event: React.PointerEvent) {
         event.stopPropagation();
     }
 
+    /** @virtual */
     protected onSelectedChanged(isSelected: boolean) {
         this.setSelectedCssClass(isSelected);
         this.setState({ isSelected: isSelected });
     }
 
-    protected renderText(): JSX.Element {
+    private _renderText(): JSX.Element {
         if (this.hasText) {
             return <span className="text">{this.props.text}</span>;
         }
 
-        return <span />;
+        return null;
+    }
+
+    /**@virtual */
+    protected renderMoreJSX(): JSX.Element {
+        return null;
     }
 
     protected setSelectedCssClass(isSelected: boolean) {
@@ -125,13 +169,10 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
         }
     }
 
-    protected renderInnerJSX(): JSX.Element {
-        return this.renderText();
-    }
-
     public render(): JSX.Element {
         return (
             <Link
+                style={{ height: this.state.height, width: this.state.width }}
                 className={this.state.cssClasses}
                 onPointerEnter={(e) => this.onPointerEnter(e)}
                 onPointerLeave={(e) => this.onPointerLeave(e)}
@@ -139,7 +180,8 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
                 onPointerUp={(e) => this.onPointerUp(e)}
                 to={this.props.url}
             >
-                {this.renderInnerJSX()}
+                {this._renderText()}
+                {this.renderMoreJSX()}
             </Link>
         );
     }

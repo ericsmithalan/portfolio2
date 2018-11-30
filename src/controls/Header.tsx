@@ -7,7 +7,8 @@ export class HeaderControl extends Component {
         return (
             <div className="header">
                 <IconButtonControl
-                    text="cool"
+                    height={50}
+                    width={50}
                     iconSource={IconSources.Menu}
                     onPress={this._menuButtonPress}
                 />

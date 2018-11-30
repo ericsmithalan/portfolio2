@@ -1,73 +1,98 @@
+@import "./darkTheme";
+
 @import url("https://fonts.googleapis.com/css?family=Alegreya|Lato:900");
 
 $font-body: "Alegreya", serif;
 $font-heading: "Lato", sans-serif;
 
-$theme: (
-    breakpoints: (
-        xsmall: 320px,
-        small: 600px,
-        medium: 960px,
-        large: 1280px,
-        xlarge: 1920px
-    ),
-    typography: (
-        family-body: $font-body,
-        family-heading: $font-heading,
-        size-body: 100%,
-        headers: (
-            h1: 48,
-            h2: 32,
-            h3: 28,
-            h4: 22,
-            h5: 18,
-            h6: 16
-        ),
-        size-small: 100%
-    ),
-    color-chrome: (
-        high: #f2f2f2,
-        high-medium: #e5e5e5,
-        medium: #cccccc,
-        low-medium: #999999,
-        low: #666666
-    ),
-    color-base: (
-        high: #0d0d0d,
-        high-medium: #1a1a1a,
-        medium: #262626,
-        low-medium: #333333,
-        low: #666666
-    ),
-    color-accent: (
-        high: #126ef5,
-        high-medium: #3885f7,
-        medium: #5e9cf9,
-        low-medium: #83b3fa,
-        low: #a9cafc
-    ),
-    color-status: (
-        warning: #bcb34f,
-        success: #4fbc7b,
-        danger: #e94b35,
-        error: #bc4f4f
-    )
+$breakpoints: (
+    xsmall: 320px,
+    small: 600px,
+    medium: 960px,
+    large: 1280px,
+    xlarge: 1920px
 );
-@function theme-chrome($name) {
-    @return map-get(map-get($theme, color-chrome), $name);
-}
-@function theme-status($name) {
-    @return map-get(map-get($theme, color-status), $name);
-}
-@function theme-accent($name) {
-    @return map-get(map-get($theme, color-accent), $name);
-}
-@function theme-base($name) {
-    @return map-get(map-get($theme, color-base), $name);
-}
+$typography: (
+    family-body: $font-body,
+    family-heading: $font-heading
+);
+$fontSizes: (
+    h1: 48,
+    h2: 32,
+    h3: 28,
+    h4: 22,
+    h5: 18,
+    h6: 16,
+    body: 100%,
+    default: 13,
+    small: 11
+);
+$accentColors: (
+    high: #126ef5,
+    high-medium: #3885f7,
+    medium: #5e9cf9,
+    low-medium: #83b3fa,
+    low: #a9cafc
+);
+$statusColors: (
+    warning: #bcb34f,
+    success: #4fbc7b,
+    danger: #e94b35,
+    error: #bc4f4f
+);
 @function theme-breakpoint($name) {
-    @return map-get(map-get($theme, breakpoints), $name);
+    @if (map-get($breakpoints, $name)) {
+        @return map-get($breakpoints, $name);
+    } @else {
+        @error "must contain one of the following strings: #{$breakpoints}";
+    }
 }
 @function theme-typography($name) {
-    @return map-get(map-get($theme, typography), $name);
+    @if (map-get($typography, $name)) {
+        @return map-get($typography, $name);
+    } @else {
+        @error "must contain one of the following strings: #{$typography}";
+    }
+}
+@function theme-fontSize($name) {
+    @if (map-get($fontSizes, $name)) {
+        @return map-get($fontSizes, $name);
+    } @else {
+        @error "must contain one of the following strings: #{$fontSizes}";
+    }
+}
+@function theme-accent($name) {
+    @if (map-get($accentColors, $name)) {
+        @return map-get($accentColors, $name);
+    } @else {
+        @error "must contain one of the following strings: #{$accentColors}";
+    }
+}
+@function theme-base($name) {
+    @if (map-get($baseColors, $name)) {
+        @return map-get($baseColors, $name);
+    } @else {
+        @error "must contain one of the following strings: #{$baseColors}";
+    }
+}
+@function theme-chrome($name) {
+    @if (map-get($chormeColors, $name)) {
+        @return map-get($chormeColors, $name);
+    } @else {
+        @error "must contain one of the following strings: #{$chromeColors}";
+    }
+}
+@function theme-base($name) {
+    @if (map-get($baseColors, $name)) {
+        @return map-get($baseColors, $name);
+    } @else {
+        @error "must contain one of the following strings: #{$baseColors}";
+    }
+}
+@function theme-fontColor($name) {
+    @if (map-get($baseColors, $name)) {
+        @return map-get($baseColors, $name);
+    } @else {
+        @error "must contain one of the following strings: #{$baseColors}";
+    }
 }

@@ -1,5 +1,5 @@
 import { ButtonControl, IButtonProps, Icon } from '@controls';
-import { IconSources } from '@src';
+import { Globals, IconSources } from '@src';
 import React from 'react';
 
 export interface IconButtonProps extends IButtonProps {
@@ -12,71 +12,65 @@ export class IconButtonControl extends ButtonControl<IconButtonProps> {
         iconSource: IconSources.Placeholder,
         iconAlign: "left",
         type: "standard",
-        url: "."
+        url: ".",
+        height: "auto",
+        width: "auto",
+        theme: Globals.theme
     };
 
-    private _hasIcon: boolean;
     private _iconRef: React.RefObject<Icon>;
 
     public constructor(props: IconButtonProps) {
         super(props);
-        this._hasIcon = true;
 
         this._iconRef = React.createRef<Icon>();
     }
 
+    /** @override */
     public componentWillMount(): void {
         super.componentWillMount();
         this._setAlignCssClass(this.props.iconAlign);
     }
 
+    /** @override */
     protected onPointerEnter(event: React.PointerEvent) {
         super.onPointerEnter(event);
 
-        this._iconRef.current.color = "red";
+        this._iconRef.current.color = this.props.theme.iconColors.hover;
     }
 
+    /** @override */
     protected onPointerLeave(event: React.PointerEvent) {
         super.onPointerEnter(event);
 
         this._iconRef.current.toOrigionalColor();
     }
 
+    /** @override */
     protected onPointerDown(event: React.PointerEvent) {
         super.onPointerDown(event);
 
-        this._iconRef.current.color = "blue";
+        this._iconRef.current.color = this.props.theme.iconColors.press;
     }
 
+    /** @override */
     protected onPointerUp(event: React.PointerEvent) {
         super.onPointerUp(event);
 
-        this._iconRef.current.color = "red";
+        this._iconRef.current.color = this.props.theme.iconColors.hover;
     }
 
-    protected renderInnerJSX(): JSX.Element {
-        return (
-            <div>
-                {this.renderText()}
-                {this.renderIcon()}
-            </div>
-        );
+    /** @override */
+    protected renderMoreJSX(): JSX.Element {
+        return this._renderIcon();
     }
 
-    protected renderIcon(): JSX.Element {
-        if (this._hasIcon) {
-            return (
-                <div className="iconWrapper">
-                    <Icon ref={this._iconRef} source={this.props.iconSource} />
-                </div>
-            );
-        }
-
-        return <span />;
+    private _renderIcon(): JSX.Element {
+        return <Icon ref={this._iconRef} source={this.props.iconSource} />;
     }
 
     protected _setAlignCssClass(alignment: string) {
-        if (this._hasIcon && this.hasText) {
+        if (this.hasText) {
             switch (alignment) {
                 case "Left":
                     this.cssClasses.add("left");

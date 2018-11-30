@@ -1,4 +1,4 @@
-import { Globals } from '@src';
+import { Globals, ITheme } from '@src';
 import React, { PureComponent } from 'react';
 
 type IconProps = {
@@ -6,6 +6,7 @@ type IconProps = {
     height: number;
     color: string;
     source: JSX.Element;
+    theme: ITheme;
 };
 
 type IconState = {
@@ -16,7 +17,8 @@ export class Icon extends PureComponent<IconProps, IconState> {
     private _source: JSX.Element;
     public static defaultProps: Partial<IconProps> = {
         width: 32,
-        height: 32
+        height: 32,
+        theme: Globals.theme
     };
 
     private _color: string;
@@ -25,7 +27,7 @@ export class Icon extends PureComponent<IconProps, IconState> {
         super(props);
 
         this.state = {
-            color: Globals.theme.colors.colorBase.medium
+            color: this.props.theme.iconColors.normal
         };
     }
 
@@ -49,7 +51,7 @@ export class Icon extends PureComponent<IconProps, IconState> {
     }
 
     public toOrigionalColor() {
-        this.color = this.props.color;
+        this.color = this.props.theme.iconColors.normal;
     }
 
     public componentWillMount() {

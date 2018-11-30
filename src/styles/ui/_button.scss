@@ -1,12 +1,11 @@
 .button {
-    background-color: theme-chrome(low);
+    display: flex;
+    justify-content: center;
+    justify-items: center;
+    align-content: center;
+    align-items: center;
 
     &:hover {
-        background-color: theme-chrome(low-medium);
-    }
-
-    &.selected {
-        background-color: theme-accent(high);
     }
 
     &.icon-left {
@@ -28,6 +27,5 @@
     .iconWrapper {
         display: block;
         margin: auto;
-        background-color: red;
     }
 }

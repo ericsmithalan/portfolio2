@@ -1,3 +1,4 @@
+export * from "./ITheme";
 export * from "./Arr";
 export * from "./Globals";
 export * from "./IRect";
