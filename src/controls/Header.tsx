@@ -1,12 +1,14 @@
-import { ButtonControl, IconSources } from '@controls';
+import { IconButtonControl } from '@controls';
+import { IconSources } from '@src';
 import React, { Component } from 'react';
 
 export class HeaderControl extends Component {
     public render() {
         return (
             <div className="header">
-                <ButtonControl
-                    iconSource={IconSources.Placeholder}
+                <IconButtonControl
+                    text="cool"
+                    iconSource={IconSources.Menu}
                     onPress={this._menuButtonPress}
                 />
                 <div>Header</div>

@@ -13,6 +13,7 @@
         "watch-css": "npm run build-css && node-sass-chokidar src/styles/ -o src/styles/  -w -r --include-path --output-style expanded",
         "start": "npm-run-all -p watch-css start-js",
         "build": "npm run build-css && react-scripts-ts build",
+        "build-dev": "npm run build-css && react-scripts-ts build",
         "start-js": "react-scripts-ts start",
         "test": "react-scripts-ts test --env=jsdom",
         "eject": "react-scripts-ts eject"

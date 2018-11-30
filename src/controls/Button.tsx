@@ -1,38 +1,33 @@
-import { Icon } from '@controls';
 import { Arr } from '@src';
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-type ButtonProps = {
+export interface IButtonProps {
     type: "Standard" | "Selectable";
-    iconSource: JSX.Element;
     text: string;
-    iconAlign: "Top" | "Left" | "Bottom" | "Right";
     url: string;
     onPress: (event: React.MouseEvent) => void;
     onPointerEnter: (event: React.MouseEvent) => void;
     onPointerLeave: (event: React.MouseEvent) => void;
     isSelected: boolean;
-};
+}
 
-type ButtonState = {
+export interface IButtonState {
     isSelected: boolean;
     cssClasses: string;
-};
+}
 
-export class ButtonControl extends Component<ButtonProps, ButtonState> {
-    public static defaultProps: Partial<ButtonProps> = {
+export class ButtonControl<TProps extends IButtonProps> extends Component<TProps, IButtonState> {
+    public static defaultProps: Partial<IButtonProps> = {
         type: "Standard",
         url: "."
     };
 
     private readonly _cssClasses: Arr<string>;
+    private readonly _hasText: boolean;
+    private readonly _isSelectable: boolean;
 
-    private _hasIcon: boolean;
-    private _hasText: boolean;
-    private _isSelectable: boolean;
-
-    public constructor(props: ButtonProps) {
+    public constructor(props: TProps) {
         super(props);
 
         this._cssClasses = new Arr<string>();
@@ -42,9 +37,25 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
             cssClasses: ""
         };
 
-        this._hasIcon = true;
-        this._hasText = true;
-        this._isSelectable = true;
+        if (!this.props.text) {
+            this._hasText = false;
+        }
+
+        if (this.props.type !== "Selectable") {
+            this._isSelectable = false;
+        }
+    }
+
+    protected get cssClasses(): Arr<string> {
+        return this._cssClasses;
+    }
+
+    protected get isSelectable(): boolean {
+        return this._isSelectable;
+    }
+
+    protected get hasText(): boolean {
+        return this._hasText;
     }
 
     public get isSelected(): boolean {
@@ -52,130 +63,84 @@ export class ButtonControl extends Component<ButtonProps, ButtonState> {
     }
 
     public componentWillMount(): void {
-        if (!this.props.text) {
-            this._hasText = false;
-        }
-
-        if (!this.props.iconSource) {
-            this._hasIcon = false;
-        }
-
-        if (this.props.type !== "Selectable") {
-            this._isSelectable = false;
-        }
-
-        console.log(this.props);
-        this._updateStyles();
+        this.cssClasses.add("button");
+        this.setSelectedCssClass(this.props.isSelected);
+        this.setState({ cssClasses: this.cssClasses.classString });
     }
 
-    public render(): JSX.Element {
-        console.log("rendered", this.state.cssClasses);
-        return (
-            <Link
-                className={this.state.cssClasses}
-                onPointerEnter={this._pointerEnter}
-                onPointerLeave={this._pointerLeave}
-                onPointerDown={this._pointerDown}
-                onPointerUp={this._pointerUp}
-                to={this.props.url}
-            >
-                {this._renderIcon()}
-                {this._renderText()}
-            </Link>
-        );
+    protected onPointerEnter(event: React.PointerEvent) {
+        event.stopPropagation();
+
+        if (this.props.onPointerEnter) {
+            this.props.onPointerEnter(event);
+        }
     }
 
-    private _renderIcon(): JSX.Element {
-        if (this._hasIcon) {
-            return (
-                <div className="iconWrapper">
-                    <Icon source={this.props.iconSource} />
-                </div>
-            );
+    protected onPointerLeave(event: React.PointerEvent) {
+        event.stopPropagation();
+
+        if (this.props.onPointerLeave) {
+            this.props.onPointerLeave(event);
+        }
+    }
+
+    protected onPointerDown(event: React.PointerEvent) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (this.isSelectable) {
+            const isSelected = !this.state.isSelected;
+            this.onSelectedChanged(isSelected);
         }
 
-        return <span />;
+        if (this.props.onPress) {
+            this.props.onPress(event);
+        }
     }
 
-    private _renderText(): JSX.Element {
-        if (this._hasText) {
+    protected onPointerUp(event: React.PointerEvent) {
+        event.stopPropagation();
+    }
+
+    protected onSelectedChanged(isSelected: boolean) {
+        this.setSelectedCssClass(isSelected);
+        this.setState({ isSelected: isSelected });
+    }
+
+    protected renderText(): JSX.Element {
+        if (this.hasText) {
             return <span className="text">{this.props.text}</span>;
         }
 
         return <span />;
     }
 
-    private _pointerUp = (event: React.PointerEvent): void => {
-        event.stopPropagation();
-    };
-
-    private _pointerDown = (event: React.PointerEvent): void => {
-        event.preventDefault();
-        event.stopPropagation();
-
-        if (this._isSelectable) {
-            const isSelected = !this.state.isSelected;
-
-            this._setSelectedCssClass(isSelected);
-            this.setState({ isSelected: isSelected });
-        }
-
-        if (this.props.onPress) {
-            this.props.onPress(event);
-        }
-    };
-
-    private _pointerEnter = (event: React.PointerEvent): void => {
-        event.stopPropagation();
-
-        if (this.props.onPointerEnter) {
-            this.props.onPointerEnter(event);
-        }
-    };
-
-    private _pointerLeave = (event: React.PointerEvent): void => {
-        event.stopPropagation();
-
-        if (this.props.onPointerLeave) {
-            this.props.onPointerLeave(event);
-        }
-    };
-
-    private _updateStyles() {
-        this._cssClasses.add("button");
-        this._setAlignCssClass(this.props.iconAlign);
-        this._setSelectedCssClass(this.props.isSelected);
-        this.setState({ cssClasses: this._cssClasses.classString });
-    }
-
-    private _setSelectedCssClass(isSelected: boolean) {
-        if (this._isSelectable) {
+    protected setSelectedCssClass(isSelected: boolean) {
+        if (this.isSelectable) {
             if (isSelected) {
-                this._cssClasses.add("selected");
+                this.cssClasses.add("selected");
             } else {
-                this._cssClasses.remove("selected");
+                this.cssClasses.remove("selected");
             }
         }
     }
 
-    private _setAlignCssClass(alignment: string) {
-        if (this._hasIcon && this._hasText) {
-            switch (alignment) {
-                case "Left":
-                    this._cssClasses.add("left");
-                    break;
-                case "Right":
-                    this._cssClasses.add("right");
-                    break;
-                case "Bottom":
-                    this._cssClasses.add("bottom");
-                    break;
-                case "Top":
-                    this._cssClasses.add("top");
-                    break;
-                default:
-                    break;
-            }
-        }
+    protected renderInnerJSX(): JSX.Element {
+        return this.renderText();
+    }
+
+    public render(): JSX.Element {
+        return (
+            <Link
+                className={this.state.cssClasses}
+                onPointerEnter={(e) => this.onPointerEnter(e)}
+                onPointerLeave={(e) => this.onPointerLeave(e)}
+                onPointerDown={(e) => this.onPointerDown(e)}
+                onPointerUp={(e) => this.onPointerUp(e)}
+                to={this.props.url}
+            >
+                {this.renderInnerJSX()}
+            </Link>
+        );
     }
 }
