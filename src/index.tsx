@@ -1,8 +1,7 @@
-export * from "./ITheme";
-export * from "./Arr";
-export * from "./Globals";
-export * from "./IRect";
-export * from "./ServiceWorker";
-export * from "./IVector2";
-export * from "./IconSources";
-export * from "./app/";
+import { App, ServiceWorker } from "@app";
+
+import React from "react";
+import ReactDOM from "react-dom";
+
+ReactDOM.render(<App />, document.getElementById("root") as HTMLElement);
+ServiceWorker.register();

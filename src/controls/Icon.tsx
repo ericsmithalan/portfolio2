@@ -1,82 +1,82 @@
-import { Globals, ITheme } from '@src';
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
+
+import { Globals } from "@app";
+import { ITheme } from "@core";
 
 type IconProps = {
-    width: number;
-    height: number;
-    color: string;
-    source: JSX.Element;
-    theme: ITheme;
+	width: number;
+	height: number;
+	color: string;
+	source: JSX.Element;
 };
 
 type IconState = {
-    color: string;
+	color: string;
 };
 
 export class Icon extends PureComponent<IconProps, IconState> {
-    private _source: JSX.Element;
-    public static defaultProps: Partial<IconProps> = {
-        width: 32,
-        height: 32,
-        theme: Globals.theme
-    };
+	private _source: JSX.Element;
+	public static defaultProps: Partial<IconProps> = {
+		width: 32,
+		height: 32
+	};
 
-    private _color: string;
+	private _color: string;
 
-    public constructor(props: IconProps) {
-        super(props);
+	public constructor(props: IconProps) {
+		super(props);
 
-        this.state = {
-            color: this.props.theme.iconColors.normal
-        };
-    }
+		this.state = {
+			color: Globals.instance.theme.iconColors.normal
+		};
+	}
 
-    public get source(): JSX.Element {
-        return this._source;
-    }
+	public get source(): JSX.Element {
+		return this._source;
+	}
 
-    public get color(): string {
-        return this._color;
-    }
+	public get color(): string {
+		return this._color;
+	}
 
-    public set color(value: string) {
-        if (this._color !== value) {
-            this._color = value;
-            this.setState({ color: value });
-        }
-    }
+	public set color(value: string) {
+		if (this._color !== value) {
+			this._color = value;
+			this.setState({ color: value });
+		}
+	}
 
-    public set source(value: JSX.Element) {
-        this._source = value;
-    }
+	public set source(value: JSX.Element) {
+		this._source = value;
+	}
 
-    public toOrigionalColor() {
-        this.color = this.props.theme.iconColors.normal;
-    }
+	public toOrigionalColor() {
+		this.color = Globals.instance.theme.iconColors.normal;
+	}
 
-    public componentWillMount() {
-        if (this.props.color) {
-            this.color = this.props.color;
-        }
+	public componentWillMount() {
+		if (this.props.color) {
+			this.color = this.props.color;
+		}
 
-        if (this.props.source) {
-            this.source = this.props.source;
-        }
-    }
+		if (this.props.source) {
+			this.source = this.props.source;
+		}
+	}
 
-    public render() {
-        return (
-            <svg
-                className="iconContainer"
-                width={this.props.width}
-                height={this.props.height}
-                fill={this.state.color}
-                transform="0 0"
-                preserveAspectRatio="xMaxYMax meet"
-                viewBox={`0, 0, ${this.props.width}, ${this.props.height}`}
-            >
-                {this._source}
-            </svg>
-        );
-    }
+	public render() {
+		return (
+			<svg
+				className="iconContainer"
+				width={this.props.width}
+				height={this.props.height}
+				fill={this.state.color}
+				transform="0 0"
+				preserveAspectRatio="xMaxYMax meet"
+				viewBox={`0, 0, ${this.props.width}, ${this.props.height}`}
+			>
+				{this._source}
+			</svg>
+		);
+	}
 }
