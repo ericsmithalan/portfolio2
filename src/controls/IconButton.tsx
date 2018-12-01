@@ -1,11 +1,15 @@
 import { ButtonControl, IButtonProps, Icon } from "@controls";
 import { Globals, IconSources } from "@app";
 
+import { IPointerEventColors } from "@theme";
 import React from "react";
+
+export type IconAlignmentType = "top" | "left" | "bottom" | "right";
 
 export interface IconButtonProps extends IButtonProps {
 	iconSource: JSX.Element;
-	iconAlign: "top" | "left" | "bottom" | "right";
+	iconAlign: IconAlignmentType;
+	iconColors: IPointerEventColors;
 }
 
 export class IconButtonControl extends ButtonControl<IconButtonProps> {
@@ -15,7 +19,8 @@ export class IconButtonControl extends ButtonControl<IconButtonProps> {
 		type: "standard",
 		url: ".",
 		height: "auto",
-		width: "auto"
+		width: "auto",
+		iconColors: Globals.theme.iconColors
 	};
 
 	private _iconRef: React.RefObject<Icon>;
@@ -32,32 +37,36 @@ export class IconButtonControl extends ButtonControl<IconButtonProps> {
 		this._setAlignCssClass(this.props.iconAlign);
 	}
 
+	public componentDidMount(): void {
+		this._iconRef.current.color = this.props.iconColors.default;
+	}
+
 	/** @override */
 	protected onPointerEnter(event: React.PointerEvent) {
 		super.onPointerEnter(event);
 
-		this._iconRef.current.color = Globals.instance.theme.iconColors.hover;
+		this._iconRef.current.color = this.props.iconColors.hover;
 	}
 
 	/** @override */
 	protected onPointerLeave(event: React.PointerEvent) {
 		super.onPointerEnter(event);
 
-		this._iconRef.current.toOrigionalColor();
+		this._iconRef.current.color = this.props.iconColors.default;
 	}
 
 	/** @override */
 	protected onPointerDown(event: React.PointerEvent) {
 		super.onPointerDown(event);
 
-		this._iconRef.current.color = Globals.instance.theme.iconColors.press;
+		this._iconRef.current.color = this.props.iconColors.press;
 	}
 
 	/** @override */
 	protected onPointerUp(event: React.PointerEvent) {
 		super.onPointerUp(event);
 
-		this._iconRef.current.color = Globals.instance.theme.iconColors.hover;
+		this._iconRef.current.color = this.props.iconColors.hover;
 	}
 
 	/** @override */
@@ -69,20 +78,20 @@ export class IconButtonControl extends ButtonControl<IconButtonProps> {
 		return <Icon ref={this._iconRef} source={this.props.iconSource} />;
 	}
 
-	protected _setAlignCssClass(alignment: string) {
+	protected _setAlignCssClass(alignment: IconAlignmentType) {
 		if (this.hasText) {
 			switch (alignment) {
-				case "Left":
-					this.cssClasses.add("left");
+				case "left":
+					this.cssClasses.add("icon-left");
 					break;
-				case "Right":
-					this.cssClasses.add("right");
+				case "right":
+					this.cssClasses.add("icon-right");
 					break;
-				case "Bottom":
-					this.cssClasses.add("bottom");
+				case "bottom":
+					this.cssClasses.add("icon-bottom");
 					break;
-				case "Top":
-					this.cssClasses.add("top");
+				case "top":
+					this.cssClasses.add("icon-top");
 					break;
 				default:
 					break;

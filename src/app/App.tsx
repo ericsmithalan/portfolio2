@@ -2,29 +2,28 @@ import "@styles";
 
 import { AboutPage, HomePage, ProjectPage } from "@pages";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Globals, ThemeName } from "@app";
 import React, { Component } from "react";
-
-import { Globals } from "@app";
 
 export interface IAppProps {}
 
 export interface IAppState {
-	themeType: string;
+	themeName: ThemeName;
 }
 
 export class App extends Component<IAppProps, IAppState> {
 	public constructor(props: IAppProps) {
 		super(props);
-		Globals.instance.themeType = "light";
+
+		Globals.rootElementId = "root";
 
 		this.state = {
-			themeType: Globals.instance.themeType
+			themeName: Globals.themeName
 		};
 	}
 
 	public componentWillMount() {
-		const root: HTMLElement = document.getElementById("root");
-		root.setAttribute("class", `app ${this.state.themeType}`);
+		Globals.setTheme("light");
 	}
 
 	public render() {

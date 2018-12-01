@@ -1,8 +1,7 @@
-import { IColorScheme } from "@core";
-import { Theme } from "@app";
+import { IMonochromaticColors, Theme } from "@theme";
 
 export class LightTheme extends Theme {
-	public get chromeColors(): IColorScheme {
+	public get chromeColors(): IMonochromaticColors {
 		return {
 			high: "#DEDEDE",
 			highMedium: "#C4C4C4",
@@ -12,7 +11,7 @@ export class LightTheme extends Theme {
 		};
 	}
 
-	public get baseColors(): IColorScheme {
+	public get baseColors(): IMonochromaticColors {
 		return {
 			high: "#222222",
 			highMedium: "#333333",

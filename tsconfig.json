@@ -25,6 +25,7 @@
 			"@styles": ["src/styles/_index.scss"],
 			"@app": ["src/app/index"],
 			"@core": ["src/core/index"],
+			"@theme": ["src/theme/index"],
 			"@images/*": ["src/images/*"],
 			"@pages": ["src/pages/index"],
 			"@controls": ["src/controls/index"],

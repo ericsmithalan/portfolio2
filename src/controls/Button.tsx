@@ -1,11 +1,12 @@
-import { Collection, ITheme } from "@core";
 import React, { Component } from "react";
 
-import { Globals } from "@app";
+import { Collection } from "@core";
 import { Link } from "react-router-dom";
 
+export type ButtonType = "standard" | "selectable";
+
 export interface IButtonProps {
-	type: "standard" | "selectable";
+	type: ButtonType;
 	text: string;
 	url: string;
 	width: number | string;
@@ -14,7 +15,6 @@ export interface IButtonProps {
 	onPointerEnter: (event: React.MouseEvent) => void;
 	onPointerLeave: (event: React.MouseEvent) => void;
 	isSelected: boolean;
-	theme: ITheme;
 }
 
 export interface IButtonState {
@@ -29,8 +29,7 @@ export class ButtonControl<TProps extends IButtonProps> extends Component<TProps
 		type: "standard",
 		url: "empty",
 		height: "auto",
-		width: "auto",
-		theme: Globals.instance.theme
+		width: "auto"
 	};
 
 	private readonly _cssClasses: Collection<string>;
