@@ -1,4 +1,4 @@
-import './app.css';
+import '../styles/index.scss';
 
 import * as React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
